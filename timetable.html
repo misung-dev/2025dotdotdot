@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<!-- saved from url=(0136)file:///D:/Downloads/%ED%8A%B9%ED%99%94%EA%B1%B0%EB%A6%AC_%EC%A0%90%EC%A0%90%EC%A0%90_%ED%83%80%EC%9E%84%ED%85%8C%EC%9D%B4%EB%B8%94.html -->
+<html lang="ko">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>특화거리 점점점 타임테이블</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 15mm;
+      }
+
+      body {
+        font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .container {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 25px;
+        border-bottom: 4px solid #667eea;
+        padding-bottom: 20px;
+      }
+
+      .header h1 {
+        color: #667eea;
+        font-size: 32px;
+        margin: 0 0 10px 0;
+        font-weight: bold;
+      }
+
+      .header .subtitle {
+        color: #764ba2;
+        font-size: 20px;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+
+      .header .date-info {
+        color: #555;
+        font-size: 16px;
+        margin-top: 8px;
+      }
+
+      .intro {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      .time-section {
+        margin-bottom: 25px;
+      }
+
+      .time-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+      }
+
+      .time-header::before {
+        content: "🕐";
+        margin-right: 10px;
+        font-size: 22px;
+      }
+
+      .event-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
+      .event-card {
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 15px;
+        background: white;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .event-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        border-color: #667eea;
+      }
+
+      .event-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .event-icon {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-size: 28px;
+        opacity: 0.8;
+      }
+
+      .event-title {
+        color: #667eea;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0 0 10px 0;
+        padding-right: 45px;
+      }
+
+      .event-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 10px;
+      }
+
+      .tag {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: bold;
+      }
+
+      .tag.interactive {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+
+      .tag.workshop {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      }
+
+      .tag.exhibition {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      }
+
+      .tag.performance {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      }
+
+      .tag.outdoor {
+        background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+      }
+
+      .tag.mystery {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        color: #333;
+      }
+
+      .event-location {
+        color: #666;
+        font-size: 12px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .event-location::before {
+        content: "📍";
+        margin-right: 5px;
+        flex-shrink: 0;
+      }
+
+      .event-time {
+        background: #f8f9fa;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 13px;
+        color: #764ba2;
+        font-weight: bold;
+        margin-bottom: 8px;
+        display: inline-block;
+      }
+
+      .event-desc {
+        color: #444;
+        font-size: 13px;
+        line-height: 1.5;
+        margin-top: 8px;
+        border-top: 1px solid #f0f0f0;
+        padding-top: 8px;
+      }
+
+      .special-note {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 10px 15px;
+        margin-top: 10px;
+        border-radius: 5px;
+        font-size: 12px;
+        color: #856404;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 2px solid #e0e0e0;
+        color: #666;
+        font-size: 13px;
+      }
+
+      @media print {
+        body {
+          background: white;
+        }
+        .container {
+          box-shadow: none;
+        }
+        .event-card {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🎨 2025 문화예술특화거리 점점점</h1>
+        <div class="subtitle">&lt;인촌에… 나려오다&gt; 공동프로젝트</div>
+        <div class="date-info">
+          📅 2025년 11월 14일(금)~15일(토) / 21일(금)~22일(토)
+        </div>
+      </div>
+
+      <div class="intro">
+        <strong>🌟 행사 소개:</strong> 예술가들의 작업실이 정겨운 시골 마을로
+        변신합니다! 미추홀구, 중구, 동구 세 개 군구에 있는 10개의 문화공간에서
+        펼쳐지는 특별한 문화 체험에 여러분을 초대합니다.
+      </div>
+
+      <!-- 오전~오후 프로그램 (11:00~18:00) -->
+      <div class="time-section">
+        <div class="time-header">오전~오후 프로그램 (11:00~18:00)</div>
+        <div class="event-grid">
+          <div class="event-card">
+            <div class="event-icon">☕</div>
+            <h3 class="event-title">카츠오리진연구소</h3>
+            <div class="event-tags">
+              <span class="tag workshop">체험형</span>
+              <span class="tag">휴식공간</span>
+            </div>
+            <div class="event-time">⏰ 11:00 - 18:00</div>
+            <div class="event-location">인천 중구 자유공원로 5 3층</div>
+            <div class="event-desc">
+              <strong
+                >&lt;오래된 골목 위 작은 다방에서 당신의 상상도 살며시 놓아두고
+                가세요&gt;</strong
+              ><br />
+              다방처럼 꾸며진 공간에서 앉아 차를 마시듯 쉬어가며, 직접 조각보
+              티코스터도 만들어보실 수 있습니다.
+            </div>
+          </div>
+
+          <div class="event-card">
+            <div class="event-icon">🌱</div>
+            <h3 class="event-title">창작집단 발아</h3>
+            <div class="event-tags">
+              <span class="tag workshop">체험형</span>
+              <span class="tag">문학</span>
+              <span class="tag">원예</span>
+            </div>
+            <div class="event-time">⏰ 12:00 - 18:00</div>
+            <div class="event-location">인천 중구 송월동1가 4-67</div>
+            <div class="event-desc">
+              <strong>&lt;읽고, 쓰고, 심고, 돌보는 작은 여정&gt;</strong><br />
+              창작 도서관의 희곡을 읽으며 휴식을 가집니다. 책 속 마음에 남는
+              문장을 화분에 담고, 씨앗을 심으며 완성된 화분을 집으로 가져가세요.
+            </div>
+          </div>
+
+          <div class="event-card">
+            <div class="event-icon">🗿</div>
+            <h3 class="event-title">모이소</h3>
+            <div class="event-tags">
+              <span class="tag interactive">참여형</span>
+              <span class="tag">공공미술</span>
+            </div>
+            <div class="event-time">⏰ 12:00 - 18:00</div>
+            <div class="event-location">인천 중구 우현로 67번길 13, 2층</div>
+            <div class="event-desc">
+              <strong
+                >&lt;도심을 거닐다 나오는 돌탑을 잠시 바라보고
+                가세요!&gt;</strong
+              ><br />
+              프로젝트 스페이스 코스모스에서 진행되는 관객참여형 공공미술
+              프로젝트. 돌탑을 쌓는 행위를 통해 작품의 일부가 되는 경험을
+              제공합니다.
+            </div>
+          </div>
+
+          <div class="event-card">
+            <div class="event-icon">👹</div>
+            <h3 class="event-title">어벙또벙 이야기 수선집</h3>
+            <div class="event-tags">
+              <span class="tag exhibition">전시</span>
+              <span class="tag workshop">체험형</span>
+              <span class="tag">전통문화</span>
+            </div>
+            <div class="event-time">⏰ 13:00 - 18:00</div>
+            <div class="event-location">인천광역시 동구 송림로16 2층</div>
+            <div class="event-desc">
+              <strong>&lt;어벙대장군과 또벙여장군이 들려주는 전설들&gt;</strong
+              ><br />
+              장승이 된 어벙또벙이 인촌에서 찾은 숨은 전설들. 이야기 전시와
+              '나만의 장승 인형 만들기' 체험이 가능합니다.
+            </div>
+          </div>
+
+          <div class="event-card">
+            <div class="event-icon">✏️</div>
+            <h3 class="event-title">㈜위드달</h3>
+            <div class="event-tags">
+              <span class="tag interactive">참여형</span>
+              <span class="tag">가족친화</span>
+              <span class="tag">놀이</span>
+            </div>
+            <div class="event-time">⏰ 14:00 - 16:00</div>
+            <div class="event-location">인천시 미추홀구 주안동 13-38</div>
+            <div class="event-desc">
+              <strong>&lt;문방구는 세대를 잇는 추억의 공간&gt;</strong><br />
+              문방구의 향수를 현대적으로 재해석한 체험형 놀이 팝업 프로젝트.
+              창의적 상상과 세대 간 소통을 즐길 수 있습니다.
+            </div>
+          </div>
+
+          <div class="event-card">
+            <div class="event-icon">🕵️</div>
+            <h3 class="event-title">올라아트컴퍼니</h3>
+            <div class="event-tags">
+              <span class="tag performance">연극</span>
+              <span class="tag mystery">미스터리</span>
+              <span class="tag interactive">참여형</span>
+            </div>
+            <div class="event-time">⏰ 14:00 - 18:00</div>
+            <div class="event-location">
+              1965여관 (인천광역시 중구 신포로31번길 20)
+            </div>
+            <div class="event-desc">
+              <strong>&lt;여관괴담&gt;</strong><br />
+              오래된 여관에 남겨진 의문의 사건. 단서와 목격담을 따라 숨겨진
+              진실을 밝혀내는 참여형 연극 콘텐츠입니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 저녁 프로그램 (18:00 이후) -->
+      <div class="time-section">
+        <div class="time-header">저녁 프로그램 (18:00 이후)</div>
+        <div class="event-grid">
+          <div class="event-card">
+            <div class="event-icon">🎵</div>
+            <h3 class="event-title">코드아트</h3>
+            <div class="event-tags">
+              <span class="tag interactive">참여형</span>
+              <span class="tag">멀티미디어</span>
+              <span class="tag">스토리텔링</span>
+            </div>
+            <div class="event-time">
+              ⏰ 11/14·21 18:00~22:00 / 11/15·22 14:00~18:00
+            </div>
+            <div class="event-location">인천광역시 미추홀구 주안로 78, 3층</div>
+            <div class="event-desc">
+              <strong>&lt;예술과 물건, 사연이 어우러진 특별한 공간&gt;</strong
+              ><br />
+              예술가들이 가져온 물건의 사연을 음악, 영상 등 다양한 형식으로 듣는
+              참여형 프로젝트입니다.
+            </div>
+          </div>
+
+          <div class="event-card">
+            <div class="event-icon">🌙</div>
+            <h3 class="event-title">공간인공빛</h3>
+            <div class="event-tags">
+              <span class="tag outdoor">야외전시</span>
+              <span class="tag">영상</span>
+              <span class="tag">상설전시</span>
+            </div>
+            <div class="event-time">⏰ 19:30 - 23:00</div>
+            <div class="event-location">인천시 중구 신포로 31번길 6, 2층</div>
+            <div class="event-desc">
+              <strong>&lt;창문 너머로 흘러나오는 이야기&gt;</strong><br />
+              해가 지고 어둑해지면 2층 창문에서 빛이 어른거립니다. 인천의
+              공간들이 지녔던 이야기가 무성 영화처럼 스쳐 지나갑니다. (야외 상설
+              전시)
+            </div>
+          </div>
+
+          <div class="event-card">
+            <div class="event-icon">🎧</div>
+            <h3 class="event-title">㈜한울소리</h3>
+            <div class="event-tags">
+              <span class="tag performance">공연</span>
+              <span class="tag">실감형</span>
+              <span class="tag">오감체험</span>
+            </div>
+            <div class="event-time">
+              ⏰ 11/14·21 19:00~20:00 / 11/15·22 15:00~16:00
+            </div>
+            <div class="event-location">
+              인천광역시 미추홀구 소성로 285 지하
+            </div>
+            <div class="event-desc">
+              <strong>&lt;아련한 기억 속의 소리들&gt;</strong><br />
+              시골 마을의 풍경과 소리를 주제로 한 실감형 음향 체험. 정시 1차
+              공연, 30분 후 2차 공연 시작.
+            </div>
+            <div class="special-note">
+              ⚠️ 공연 시간: 정시 1차, 30분 2차 (각 공연 시간 확인 필수)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 전시 프로그램 -->
+      <div class="time-section">
+        <div class="time-header">특별 전시 (11/5~11/29)</div>
+        <div class="event-grid">
+          <div class="event-card">
+            <div class="event-icon">🏺</div>
+            <h3 class="event-title">공예루틴 X 임시공간</h3>
+            <div class="event-tags">
+              <span class="tag exhibition">전시</span>
+              <span class="tag">공예</span>
+              <span class="tag">협업프로젝트</span>
+            </div>
+            <div class="event-time">⏰ 12:00 - 18:00 (11/5~11/29)</div>
+            <div class="event-location">인천 신포로 23번길 43 1층 공예루틴</div>
+            <div class="event-desc">
+              <strong>&lt;바다의 기억, 땅의 순간, 하늘의 시간&gt; 展</strong
+              ><br />
+              토양이 전시의 소재이자 테마로 변화하는 새로운 순간을 담은 전시.
+              작가들의 리서치와 실험이 전시로 이어집니다.
+            </div>
+            <div class="special-note">🎤 오픈 토크: 11월 22일(금) 오후 2시</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <strong>🎭 총 10개 문화공간 | 미추홀구·중구·동구</strong><br />
+        특별한 문화 체험의 여정에 여러분을 초대합니다!
+      </div>
+    </div>
+  </body>
+</html>
